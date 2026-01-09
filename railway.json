@@ -6,7 +6,6 @@
     "numReplicas": 1,
     "sleepApplication": false,
     "restartPolicyType": "ON_FAILURE",
-    "healthcheckPath": "/",
     "healthcheckTimeout": 100
   }
 }
