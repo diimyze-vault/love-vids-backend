@@ -11,6 +11,7 @@ if [ "$PROCESS_TYPE" = "worker" ]; then
     # --concurrency=1 and --pool=solo reduces memory overhead significantly for 512MB RAM
     exec celery -A app.tasks.worker.celery_app worker --loglevel=info -Q vibe-queue --concurrency=1 --pool=solo
 else
-    echo "Starting FastAPI API (Lean: 2 workers)..."
-    exec gunicorn app.main:app -w 2 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT:-8000}
+    echo "Starting FastAPI API (Lean: Uvicorn Single Process)..."
+    # Using uvicorn directly saves memory vs Gunicorn for small containers
+    exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}
 fi
